@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Typography, Link as MuiLink } from '@mui/material'
 import { GridColumns, DataGrid } from '@mui/x-data-grid'
 import Link from 'next/link';
-import { OrderStatus, OrderStatusTranslating } from './utils/models';
+import { OrderStatus, OrderStatusTranslating } from '../utils/models';
 
 const OrdersPage = (props: any) => {
   const columns: GridColumns = [
