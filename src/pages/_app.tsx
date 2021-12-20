@@ -6,6 +6,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from './utils/theme';
 import createEmotionCache from './utils/createEmotionCache';
 import Navbar from '../components/Navbar';
+import { Container } from '@mui/material';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -21,8 +22,10 @@ export default function MyApp(props) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Navbar/>
-        <Component {...pageProps} />
+        <Navbar />
+        <Container style={{paddingTop: theme.spacing(2)}}>
+          <Component {...pageProps} />
+        </Container>
       </ThemeProvider>
     </CacheProvider>
   );
