@@ -6,6 +6,12 @@ import Link from 'next/link';
 import { OrderStatus, OrderStatusTranslating } from '../utils/models';
 import { withIronSessionSsr } from 'iron-session/next';
 import ironConfig from '../utils/ircon-config';
+import useSWR from 'swr';
+import Router from 'next/router';
+
+const fetcher = (url: string) => {
+  return axios.get(url).then(res => res.data)
+}
 
 const OrdersPage = (props: any) => {
   const columns: GridColumns = [
@@ -40,11 +46,25 @@ const OrdersPage = (props: any) => {
       width: 110,
       valueFormatter: (params) =>  OrderStatusTranslating[params.value as OrderStatus]
     },
-  ]
+  ];
+
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/orders`, 
+    fetcher,
+    {
+      fallbackData: props.orders,
+      refreshInterval: 2,
+      onError: (error) => {
+        console.log(error)
+        if ([401,403].includes(error.response.status)){
+          Router.push('/login')
+        }
+      }
+    })
+
   return (
     <div style={{height: 400, width: '100%'}}>
       <Typography component='h1' variant='h4'>Minhas Ordens</Typography>
-      <DataGrid columns={columns} rows={props.orders} />
+      <DataGrid columns={columns} rows={ data } />
 
     </div>
   );
