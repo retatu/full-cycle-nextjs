@@ -4,6 +4,8 @@ import { Typography, Link as MuiLink } from '@mui/material'
 import { GridColumns, DataGrid } from '@mui/x-data-grid'
 import Link from 'next/link';
 import { OrderStatus, OrderStatusTranslating } from '../utils/models';
+import { withIronSessionSsr } from 'iron-session/next';
+import ironConfig from '../utils/ircon-config';
 
 const OrdersPage = (props: any) => {
   const columns: GridColumns = [
@@ -51,15 +53,24 @@ const OrdersPage = (props: any) => {
 export default OrdersPage
 
 // Página gerada sempre que é acessada, mas gerada no servidor
-export const getServerSideProps: GetServerSideProps = async(context) => {
-  const { data } = await axios.get('http://localhost:3000/orders/', {
-    headers: {
-      'x-token': 'abjfvbedmo',
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr( async(context) => {
+  const account = context.req.session.account;
+  if(!account){
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
     }
+  }
+  const { data } = await axios.get('http://localhost:3001/api/orders/', {
+    headers: {
+      cookie: context.req.headers.cookie as string,
+    },
   })
   return {
     props: {
       orders: data
     }
   }
-}
+}, ironConfig)

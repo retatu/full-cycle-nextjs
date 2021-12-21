@@ -2,17 +2,25 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import axios from 'axios'
 import { Card, CardHeader, CardContent, Typography } from '@mui/material'
 import useSWR from 'swr'
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 const fetcher = (url: string) => {
-  return axios.get(url, { headers: {'x-token': 'abjfvbedmo'} }).then(res => res.data)
+  return axios.get(url).then(res => res.data)
 }
 
 const OrderShowPage = (props: any) => {
   
   const router = useRouter();
   const { id } = router.query;
-  const { data, error } = useSWR(`http://localhost:3000/orders/${id}`, fetcher)
+  const { data, error } = useSWR(`http://localhost:3001/api/orders/${id}`, 
+    fetcher,
+    {
+      onError: (error) => {
+        if ([401,403].includes(error.response.status)){
+          Router.push('/login')
+        }
+      }
+    })
 
   return (
     data ? (<div style={{height: 400, width: '100%'}}>
