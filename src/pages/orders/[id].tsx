@@ -16,6 +16,7 @@ const OrderShowPage = (props: any) => {
     fetcher,
     {
       onError: (error) => {
+        console.log(error)
         if ([401,403].includes(error.response.status)){
           Router.push('/login')
         }
