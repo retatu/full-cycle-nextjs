@@ -12,7 +12,7 @@ const OrderShowPage = (props: any) => {
   
   const router = useRouter();
   const { id } = router.query;
-  const { data, error } = useSWR(`http://localhost:3001/api/orders/${id}`, 
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/orders/${id}`, 
     fetcher,
     {
       onError: (error) => {

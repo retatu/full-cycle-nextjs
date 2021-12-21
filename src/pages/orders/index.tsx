@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr( async(
       }
     }
   }
-  const { data } = await axios.get('http://localhost:3001/api/orders/', {
+  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/orders/`, {
     headers: {
       cookie: context.req.headers.cookie as string,
     },
