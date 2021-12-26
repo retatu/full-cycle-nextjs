@@ -3,15 +3,21 @@ import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
-import theme from './utils/theme';
-import createEmotionCache from './utils/createEmotionCache';
+import { EmotionCache } from '@emotion/cache';
+import theme from '../utils/theme';
+import createEmotionCache from '../utils/createEmotionCache';
 import Navbar from '../components/Navbar';
 import { Container } from '@mui/material';
+import { AppProps } from 'next/app';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props) {
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (

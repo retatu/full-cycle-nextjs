@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSessionApiRoute } from "iron-session/next";
 import axios from "axios";
-import ironConfig from "../../utils/ircon-config";
+import ironConfig from "../../../utils/ircon-config";
 
 export default withIronSessionApiRoute(ordersList, ironConfig);
 

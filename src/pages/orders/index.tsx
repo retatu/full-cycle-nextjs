@@ -3,9 +3,9 @@ import axios from 'axios'
 import { Typography, Link as MuiLink } from '@mui/material'
 import { GridColumns, DataGrid } from '@mui/x-data-grid'
 import Link from 'next/link';
-import { OrderStatus, OrderStatusTranslating } from '../utils/models';
+import { OrderStatus, OrderStatusTranslating } from '../../utils/models';
 import { withIronSessionSsr } from 'iron-session/next';
-import ironConfig from '../utils/ircon-config';
+import ironConfig from '../../utils/ircon-config';
 import useSWR from 'swr';
 import Router from 'next/router';
 
